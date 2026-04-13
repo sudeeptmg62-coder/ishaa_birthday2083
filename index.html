@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>  Isha Karki || Birthday🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0d0b2a 0%, #1a1040 40%, #2d1b69 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+
+  /* ---- Stars ---- */
+  #stars-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star {
+    position: absolute; background: #fff; border-radius: 50%;
+    animation: twinkle var(--d) ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: .15; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.5); }
+  }
+
+  /* ---- Shooting stars ---- */
+  .shoot {
+    position: fixed; width: 2px; height: 2px; background: #fff; border-radius: 50%;
+    animation: shoot var(--sd) linear infinite;
+    box-shadow: 0 0 6px 2px rgba(255,255,255,.6);
+  }
+  @keyframes shoot {
+    0%   { transform: translate(0,0) rotate(45deg) scaleX(1); opacity: 1; }
+    100% { transform: translate(400px,400px) rotate(45deg) scaleX(80); opacity: 0; }
+  }
+
+  /* ---- Confetti canvas ---- */
+  #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+
+  /* ---- Wrapper ---- */
+  .bc-wrap {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 16px;
+  }
+
+  /* ---- Pages ---- */
+  .page { display: none; width: 100%; max-width: 460px; text-align: center; animation: slideUp .7s cubic-bezier(.22,1,.36,1); }
+  .page.active { display: block; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ---- Card ---- */
+  .card {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 28px;
+    padding: 40px 32px;
+    backdrop-filter: blur(24px);
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,190,11,.06), rgba(255,0,110,.06));
+    pointer-events: none;
+  }
+  .glow-border {
+    position: absolute; inset: -1px; border-radius: 28px;
+    background: linear-gradient(135deg, rgba(255,190,11,.25), rgba(255,0,110,.25), rgba(255,190,11,.25));
+    z-index: -1; animation: glowSpin 4s linear infinite;
+  }
+  @keyframes glowSpin { to { filter: hue-rotate(360deg); } }
+
+  /* ---- Ribbon ---- */
+  .ribbon { position: absolute; top: 0; right: 0; width: 88px; height: 88px; overflow: hidden; }
+  .ribbon span {
+    position: absolute; top: 20px; right: -20px;
+    background: linear-gradient(45deg, #ff006e, #ffbe0b);
+    color: #fff; font-size: 9px; font-weight: 700;
+    padding: 4px 28px; transform: rotate(45deg); letter-spacing: 1px;
+  }
+
+  /* ---- Avatar ---- */
+  .avatar-wrap { position: relative; display: inline-block; margin-bottom: 20px; }
+  .avatar {
+    width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+    border: 3px solid rgba(255,190,11,.6);
+    box-shadow: 0 0 0 6px rgba(255,190,11,.12), 0 0 40px rgba(255,190,11,.25);
+  }
+  .pulse-ring {
+    position: absolute; inset: -8px; border-radius: 50%;
+    border: 2px solid rgba(255,190,11,.5);
+    animation: pulse 2s ease-out infinite;
+  }
+  .pulse-ring2 { animation-delay: .6s; inset: -14px; border-color: rgba(255,0,110,.3); }
+  @keyframes pulse { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.35); opacity: 0; } }
+
+  /* ---- Typography ---- */
+  .p1-name { font-family: 'Playfair Display', serif; font-size: 30px; color: #ffd60a; margin-bottom: 4px; text-shadow: 0 0 30px rgba(255,214,10,.35); }
+  .p1-sub  { color: rgba(255,255,255,.45); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; }
+  .p1-msg  { color: rgba(255,255,255,.75); font-size: 14px; line-height: 1.9; margin-bottom: 24px; }
+
+  /* ---- Badges ---- */
+  .badges { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .badge {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.13);
+    border-radius: 20px; padding: 4px 12px; font-size: 11px; color: rgba(255,255,255,.65); letter-spacing: .4px;
+  }
+
+  /* ---- Countdown ---- */
+  .countdown { display: flex; gap: 10px; justify-content: center; margin-bottom: 26px; }
+  .cd-box {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px; padding: 10px 12px; min-width: 60px; text-align: center;
+  }
+  .cd-num { font-size: 22px; font-weight: 700; color: #ffd60a; line-height: 1; }
+  .cd-lbl { font-size: 9px; color: rgba(255,255,255,.4); letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
+
+  /* ---- Buttons ---- */
+  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 26px; border-radius: 50px; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 600; letter-spacing: .4px;
+    transition: all .25s; font-family: 'Poppins', sans-serif;
+  }
+  .btn-primary { background: linear-gradient(135deg, #ff006e, #ff4e9e); color: #fff; box-shadow: 0 4px 20px rgba(255,0,110,.4); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,0,110,.55); }
+  .btn-secondary { background: linear-gradient(135deg, #ffbe0b, #ffd60a); color: #1a1040; box-shadow: 0 4px 20px rgba(255,190,11,.35); }
+  .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,190,11,.55); }
+  .btn-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+  .btn-ghost:hover { background: rgba(255,255,255,.14); transform: translateY(-2px); }
+  .btn-teal { background: linear-gradient(135deg, #06d6a0, #0ead8a); color: #fff; box-shadow: 0 4px 20px rgba(6,214,160,.3); }
+  .btn-teal:hover { transform: translateY(-2px); }
+
+  /* ---- Divider ---- */
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent); margin: 22px 0; }
+
+  /* ---- Page 2 Gallery ---- */
+  .p2-title { font-family: 'Playfair Display', serif; font-size: 28px; color: #ffd60a; margin-bottom: 6px; }
+  .p2-sub   { color: rgba(100,100,100,.45); font-size: 13px; margin-bottom: 22px; }
+  .gallery  { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .g-item   { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 1; cursor: pointer; }
+  .g-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.g-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;   /* 🔥 full image show */
+  transition: transform .4s;
+}
+
+.g-item:hover img {
+  transform: scale(1.05); /* optional smooth zoom */
+}
+  .g-item:hover img { transform: scale(1.09); }
+  .g-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,5,30,.75), transparent);
+    display: flex; align-items: flex-end; padding: 10px;
+    opacity: 0; transition: .3s;
+  }
+  .g-item:hover .g-overlay { opacity: 1; }
+  .g-caption { font-size: 11px; color: #fff; font-weight: 600; letter-spacing: .5px; }
+  .g-item .g-heart {
+    position: absolute; top: 8px; right: 10px;
+    font-size: 18px; opacity: 0; transition: .3s; transform: scale(.6);
+  }
+  .g-item:hover .g-heart { opacity: 1; transform: scale(1); }
+
+  /* ---- Page 3 Wish ---- */
+  .wish-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,190,11,.2);
+    border-radius: 28px; padding: 36px 28px; position: relative;
+  }
+  .wish-icon { font-size: 54px; margin-bottom: 14px; display: inline-block; animation: bounce 1.8s ease-in-out infinite; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  .wish-title { font-family: 'Playfair Display', serif; font-size: 26px; color: #ffd60a; margin-bottom: 14px; }
+  .wish-text  { color: rgba(255,255,255,.78); font-size: 14px; line-height: 2; margin-bottom: 24px; }
+  .quote-bar  {
+    border-left: 3px solid #ff006e; padding: 12px 16px; margin: 18px 0;
+    text-align: left; background: rgba(255,0,110,.07); border-radius: 0 12px 12px 0;
+  }
+  .quote-bar p { font-style: italic; color: rgba(255,255,255,.65); font-size: 13px; line-height: 1.7; }
+
+  /* ---- Timeline ---- */
+  .timeline { text-align: left; margin: 20px 0; }
+  .tl-item  { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+  .tl-dot   {
+    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+  }
+  .tl-text h4 { font-size: 13px; font-weight: 600; color: #ffd60a; }
+  .tl-text p  { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 2px; }
+
+  /* ---- Nav dots ---- */
+  .dots { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+  .dot  { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.2); cursor: pointer; transition: all .3s; }
+  .dot.on { background: #ffd60a; width: 24px; border-radius: 4px; }
+
+  /* ---- Floating music btn ---- */
+  .music-btn {
+    position: fixed; bottom: 20px; right: 20px;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(255,190,11,.12); border: 1px solid rgba(255,190,11,.3);
+    color: #ffd60a; font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; transition: .3s; backdrop-filter: blur(8px);
+  }
+  .music-btn:hover { background: rgba(255,190,11,.22); transform: scale(1.1); }
+  .music-btn.playing { animation: spin 3s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---- Floating hearts ---- */
+  .float-heart {
+    position: fixed; bottom: -40px; pointer-events: none; z-index: 998;
+    animation: floatUp var(--fh) linear forwards;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(0) rotate(45deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+<div id="stars-layer"></div>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="bc-wrap">
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="page1">
+    <div class="card">
+      <div class="glow-border"></div>
+      <div class="ribbon"><span>Ishuu Birthday🎉</span></div>
+
+      <div class="avatar-wrap">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring pulse-ring2"></div>
+        <img class="avatar" src="WhatsApp Image 2026-04-13 at 9.16.23 PM.jpeg" alt="Ishuuu">
+      </div>
+
+      <div class="p1-name">Happy Birthday, Ishuuu! 🎂</div>
+      <div class="p1-sub"> 1 Bhaishak 2083&nbsp;·&nbsp; A Day the Stars Aligned</div>
+
+      <div class="badges">
+        <span class="badge">🌟 Amazing Human</span>
+        <span class="badge">🎯 Dream Chaser</span>
+        <span class="badge">💛 Cherished Friend</span>
+      </div>
+
+      <p class="p1-msg">
+        Today is a celebration of <em>you</em> — your laugh, your spirit, and every wonderful thing you bring into this world. May this year be your most brilliant chapter yet, full of joy, adventure, and everything your heart desires.
+      </p>
+
+      <div class="countdown" id="countdown"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="goTo(2)">🎞 View Memories</button>
+        <button class="btn btn-secondary" onclick="goTo(3)">🎁 Open Wish</button>
+      </div>
+    </div>
+    <div class="dots">
+      <div class="dot on" onclick="goTo(1)"></div>
+      <div class="dot" onclick="goTo(2)"></div>
+      <div class="dot" onclick="goTo(3)"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="page2">
+    <div class="p2-title">Our Memories 📸</div>
+    <div class="p2-sub">Moments that made us smile together</div>
+
+    <div class="gallery" id="gallery"></div>
+
+    <div class="divider"></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot">👩‍💼</div>
+        <div class="tl-text"><h4>Isha Karki</h4><p>Happy Birthday heroin🥹🫂!.
+          
+
+
+तिमी हाँस्दा जस्तो सूर्य उदाउँछ,
+तिम्रो आँखामा आकाशका ताराहरू झल्काउँछ।
+बोल्ने तरिका मिठासले भरिएको छ,
+र तिम्रो बनावटले मुटु नै चोर्छ।
+
+तिमी फूल जस्तो छौ, मनको बगैंचामा,
+सौन्दर्य मात्र होइन, माया पनि तिमीमा झल्कन्छ।
+साथ तिम्रो पाइरहँदा, जीवन रंगीन हुन्छ,
+सपना जस्तो छौ, र यो मुटु तिमीमा पग्लिन्छ।
+</p></div>
+      </div>
+        <div class="tl-item">
+        <div class="tl-dot">🎓</div>
+        <div class="tl-text"><h4>BBS 👩‍🍳</h4><p>तिमी BBS पढ्दै छौ, ज्ञानको बाटो रोज्दै,
+हरेक पाना, हरेक नोटमा मेहनत भर्दै।
+सपना ठूलो छ, तर तिमी अडिग छौ,
+तिम्रो प्रयासले बाबुआमा गर्वले मुस्कुराउँछ।
+
+साँझको चन्द्रमा जस्तो चम्किलो भविश्य तिम्रो लागि,
+र तिम्रो मनको धैर्य सधैं तिमीलाई अघि बढाउँछ।
+माया र शुभकामना सधैं तिम्रो साथमा रहोस्,
+सफलताको यात्रा सधैं उज्यालो र मिठासपूर्ण रहोस्।</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">🎂</div>
+        <div class="tl-text"><h4>Last Birthday</h4><p>अघिल्लो जन्मदिनमा तिमीलाई शुभकामना दिन पाइनँ,
+त्यो सोच्दा मन अलिकति दुःखी भयो।
+तर आज, मेरो सारा शुभकामना तिमीलाई छ,
+सफलता, खुशी र मुस्कान सधैं तिम्रो साथमा रहोस्।
+
+तिमी हाँस्दा संसार उज्यालो हुन्छ,
+र तिम्रो मेहनतले बाबुआमा गर्वित बनाउँछ।
+तिम्रो धैर्य र परिश्रमले उज्यालो भविष्य तिम्रो लागि बनाउँछ,
+र म सधैं तिम्रो खुशी र सफलताको कामना गर्दछु।
+
+मेरो मनले तिमीलाई सम्झन्छ,
+हरेक पल तिमीलाई खुशी देख्न चाहन्छ।
+सपना पुरा होस्, मुस्कान कहिल्यै हराओस्,
+र तिमी सधैं मेरो आँखामा चम्किलो ताराजस्तो रहोस्। heroin🥹🫂  </p></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goTo(1)">← Home</button>
+      <button class="btn btn-secondary" onclick="goTo(3)">Open Wish 🎁</button>
+    </div>
+    <div class="dots">
+      <div class="dot" onclick="goTo(1)"></div>
+      <div class="dot on" onclick="goTo(2)"></div>
+      <div class="dot" onclick="goTo(3)"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page" id="page3">
+    <div class="wish-card">
+      <div class="wish-icon">🎉</div>
+      <div class="wish-title">A Special Wish For You</div>
+
+      <div class="quote-bar">
+        <p>"The most beautiful birthday wish isn't about gifts or cakes — it's about having people who love you unconditionally by your side."</p>
+      </div>
+
+      <p class="wish-text">
+        May every morning bring you a reason to smile,<br>
+        every night carry your worries far away.<br>
+        May success walk beside you in every mile,<br>
+        and love find you in the most beautiful way.<br><br>
+        <strong style="color:#ffd60a">Happy Birthday, Ishaaa! 🎂✨  </strong>
+      </p>
+
+      <div class="divider"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="goTo(2)">← Memories</button>
+        <button class="btn btn-primary" onclick="fireConfetti()">🎊 Celebrate!</button>
+        <button class="btn btn-teal" onclick="spawnHearts()">💖 Send Love</button>
+      </div>
+    </div>
+    <div class="dots">
+      <div class="dot" onclick="goTo(1)"></div>
+      <div class="dot" onclick="goTo(2)"></div>
+      <div class="dot on" onclick="goTo(3)"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Floating music button -->
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle music">🎵</button>
+
+<script>
+// ---- Stars ----
+const starsLayer = document.getElementById('stars-layer');
+for (let i = 0; i < 140; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2.5 + 0.8;
+  s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s`;
+  starsLayer.appendChild(s);
+}
+
+// ---- Shooting stars ----
+for (let i = 0; i < 4; i++) {
+  const sh = document.createElement('div');
+  sh.className = 'shoot';
+  sh.style.cssText = `left:${Math.random()*60}%;top:${Math.random()*40}%;--sd:${(Math.random()*6+4).toFixed(1)}s;animation-delay:${(Math.random()*8).toFixed(1)}s`;
+  document.body.appendChild(sh);
+}
+  const galleryEl = document.getElementById('gallery');
+  const galleryPhotos = [
+    { src: "WhatsApp Image 2026-04-13 at 9.16.20 PM.jpeg", caption: "Muskan ta kadai xa va" },
+    { src: "WhatsApp Image 2026-04-13 at 9.16.22 PM.jpeg", caption: " Hami dui " },
+    { src: "WhatsApp Image 2026-04-13 at 9.16.18 PM.jpeg", caption: "Hami 3 jana" },
+    { src: "WhatsApp Image 2026-04-13 at 10.14.27 PM.jpeg", caption: " Dashain ko hola sayed " }
+  ];
+  galleryPhotos.forEach(photo=>{
+    const div = document.createElement('div');
+    div.className = 'g-item';
+    div.innerHTML = `
+      <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
+      <div class="g-overlay"><span class="g-caption">${photo.caption}</span></div>
+      <span class="g-heart">❤️</span>
+    `;
+    galleryEl.appendChild(div);
+    
+  });
+
+
+
+
+// ---- Countdown ----
+function updateCountdown() {
+  const now = new Date();
+  const bd = new Date(now.getFullYear(), 3, 6);
+  if (now > bd) bd.setFullYear(bd.getFullYear() + 1);
+  const diff = bd - now;
+  const d = Math.floor(diff / 864e5);
+  const h = Math.floor((diff % 864e5) / 36e5);
+  const m = Math.floor((diff % 36e5) / 6e4);
+  const s = Math.floor((diff % 6e4) / 1e3);
+  document.getElementById('countdown').innerHTML = `
+    <div class="cd-box"><div class="cd-num">${d}</div><div class="cd-lbl">Days</div></div>
+    <div class="cd-box"><div class="cd-num">${h}</div><div class="cd-lbl">Hours</div></div>
+    <div class="cd-box"><div class="cd-num">${m}</div><div class="cd-lbl">Mins</div></div>
+    <div class="cd-box"><div class="cd-num">${s}</div><div class="cd-lbl">Secs</div></div>`;
+}
+updateCountdown(); setInterval(updateCountdown, 1000);
+
+// ---- Page navigation ----
+function goTo(n) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page' + n).classList.add('active');
+  document.querySelectorAll('.dots').forEach(dotsGroup => {
+    dotsGroup.querySelectorAll('.dot').forEach((dot, i) => {
+      dot.classList.toggle('on', i === n - 1);
+      dot.style.width = i === n - 1 ? '24px' : '8px';
+    });
+  });
+  if (n === 3) setTimeout(fireConfetti, 500);
+}
+
+// ---- Confetti ----
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [], animating = false;
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+const COLORS = ['#ffd60a','#ff006e','#3a86ff','#8338ec','#06d6a0','#ffbe0b','#ff4d6d','#fff'];
+
+function fireConfetti() {
+  for (let i = 0; i < 200; i++) {
+    particles.push({
+      x: Math.random() * canvas.width, y: -10,
+      vx: (Math.random() - .5) * 6, vy: Math.random() * 5 + 2,
+      r: Math.random() * 7 + 3,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      rot: Math.random() * 360, vrot: (Math.random() - .5) * 10,
+      shape: Math.random() < .5 ? 'rect' : 'circle', alpha: 1
+    });
+  }
+  if (!animating) animateConfetti();
+}
+
+function animateConfetti() {
+  animating = true;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += .08;
+    p.rot += p.vrot; p.alpha -= .007;
+    ctx.save(); ctx.globalAlpha = Math.max(0, p.alpha);
+    ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
+    ctx.fillStyle = p.color;
+    if (p.shape === 'circle') { ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill(); }
+    else { ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); }
+    ctx.restore();
+  });
+  particles = particles.filter(p => p.alpha > 0 && p.y < canvas.height + 30);
+  if (particles.length > 0) requestAnimationFrame(animateConfetti);
+  else animating = false;
+}
+
+// ---- Floating hearts ----
+function spawnHearts() {
+  for (let i = 0; i < 14; i++) {
+    setTimeout(() => {
+      const h = document.createElement('div');
+      h.className = 'float-heart';
+      h.textContent = ['❤️','💖','💕','💗','💝'][Math.floor(Math.random()*5)];
+      h.style.cssText = `left:${Math.random()*90}%;font-size:${Math.random()*18+14}px;--fh:${(Math.random()*3+4).toFixed(1)}s;animation-delay:${(i*0.1).toFixed(1)}s`;
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 8000);
+    }, i * 80);
+  }
+}
+
+// ---- Simple ambient music ----
+let audioCtx = null, playing = false, musicNodes = [];
+function toggleMusic() {
+  const btn = document.getElementById('musicBtn');
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (playing) {
+    musicNodes.forEach(n => { try { n.stop(); } catch(e){} });
+    musicNodes = []; playing = false;
+    btn.textContent = '🎵'; btn.classList.remove('playing'); return;
+  }
+  playing = true; btn.textContent = '🔇'; btn.classList.add('playing');
+  audioCtx.resume();
+  const melody = [523,587,659,698,784,880,988,1047,988,880,784,698,659,587,523,494,523,659,784,659];
+  let t = audioCtx.currentTime;
+  melody.forEach((freq, idx) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(.08, t);
+    gain.gain.exponentialRampToValueAtTime(.001, t + .5);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(t); osc.stop(t + .55);
+    musicNodes.push(osc); t += .38;
+  });
+  setTimeout(() => { if (playing) { btn.classList.remove('playing'); btn.textContent = '🎵'; playing = false; } }, melody.length * 380 + 600);
+}
+</script>
+</body>
+</html> 
